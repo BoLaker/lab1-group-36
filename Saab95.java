@@ -2,7 +2,7 @@ import java.awt.*;
 
 class Saab95 extends Car{
 
-    public boolean turboOn;
+    private boolean turboOn; //private eftersom denna varaibel nås via get/set turboOn metoder
     
     public Saab95(){
         super(2, 125, Color.red, "Saab95");

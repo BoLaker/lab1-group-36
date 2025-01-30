@@ -7,6 +7,7 @@ class Volvo240 extends Car{
     public Volvo240(){
         super(4,100,Color.black,"Volvo240");
     }
+    @Override
     public double speedFactor(){
         return super.speedFactor() * trimFactor;
     }
@@ -16,7 +17,7 @@ class Volvo240 extends Car{
     }
 
     public void decrementSpeed(double amount){
-        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
+         currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
     }
 
     // TODO fix this method according to lab pm
