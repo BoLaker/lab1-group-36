@@ -127,8 +127,6 @@ public class Car implements Movable {
         }
     }
 
-    public void printPosition() {
-        System.out.println("Position: (" + x + y + ") Riktning: " + direction);
-    }
-
 }
+
+

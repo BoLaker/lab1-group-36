@@ -13,7 +13,7 @@ public class CarTest {
     }
 
     @Test
-    void testInitialPosition() {
+    void testStartPosition() {
         assertEquals(0, Volvo240.getX());
         assertEquals(0, Volvo240.getY());
         assertEquals("North", Volvo240.getDirection());
