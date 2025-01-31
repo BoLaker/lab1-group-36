@@ -72,6 +72,20 @@ public class Car implements Movable {
         this.currentSpeed = speed;
     }
 
+    public void gas(double amount){
+        if (amount < 0 || amount > 1){
+            throw new IllegalArgumentException("Can only increase gas by 1");
+        }
+        currentSpeed = Math.min(currentSpeed + amount, enginePower);
+    }
+
+    public void brake(double amount){
+        if (amount < 0 || amount > 1){
+            throw new IllegalArgumentException("Can only decrease brake by 1");
+        }
+        currentSpeed = Math.max(currentSpeed - amount, 0);
+    }
+
     @Override
     public void move() {
         switch (direction) {

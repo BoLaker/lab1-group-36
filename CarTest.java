@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CarTest {
@@ -67,5 +67,41 @@ public class CarTest {
         assertEquals(0, Volvo240.getX());
         assertEquals(0, Volvo240.getY());
     }
+
+    @Test
+    void testGasIncreasesSpeed(){
+        Volvo240.gas(1);
+        assertEquals(2, Volvo240.getCurrentSpeed());
+    }
+
+    @Test
+    void testBrakeDecreasesSpeed(){
+        Volvo240.brake(1);
+        assertEquals(0, Volvo240.getCurrentSpeed());
+    }
+
+    @Test
+    void testBrakeNotUnderZero(){
+        Volvo240.brake(1);
+        Volvo240.brake(1);
+        assertEquals(0, Volvo240.getCurrentSpeed());
+    }
+
+    @Test
+    void testSpeedNotExceedEnginePower(){
+        for (int i = 0; i < 100; i++) { // Gasses more than enginepower
+            Volvo240.gas(1);
+    }
+        assertEquals(100, Volvo240.getCurrentSpeed()); // Should not exceed enginePower
+    }
+
+    @Test
+    void testGasAndBrakeBounds() {
+        assertThrows(IllegalArgumentException.class, () -> Volvo240.gas(-0.5));
+        assertThrows(IllegalArgumentException.class, () -> Volvo240.gas(1.5));
+        assertThrows(IllegalArgumentException.class, () -> Volvo240.brake(-0.5));
+        assertThrows(IllegalArgumentException.class, () -> Volvo240.brake(1.5));
+    }
+
 }
 
