@@ -11,7 +11,7 @@ public class Car implements Movable {
     private double x, y; // Bilens position
     private String direction; // Riktning: "North", "South", "East", "West"
 
-    public Car(int Doors, double power, Color paint, String model) {
+    Car(int Doors, double power, Color paint, String model) {
         nrDoors = Doors;
         enginePower = power;
         color = paint;
@@ -23,6 +23,7 @@ public class Car implements Movable {
         this.currentSpeed = 0;
         this.direction = "North"; // StartDirection
     }
+
 
     public int getNrDoors() {
         return nrDoors;
