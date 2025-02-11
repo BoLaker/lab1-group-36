@@ -1,13 +1,13 @@
 import java.awt.*;
 
-public class Scania extends Car{
+class Scania extends Truck {
 
     private double TrailerTilt;
     private final double MaxTilt = 70;
     private final double MinTilt = 0;
 
     Scania(){
-        super(2,150,Color.WHITE,"Scania");
+        super(2,150, Color.WHITE,"Scania");
         this.TrailerTilt = 0;
     }
 
@@ -39,17 +39,5 @@ public class Scania extends Car{
         }
     }
 
-    @Override
-    public double speedFactor(){
-        return super.speedFactor();
-    }
-
-    public void incrementSpeed(double amount){
-        currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,enginePower);
-    }
-
-    public void decrementSpeed(double amount){
-        currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
-    }
-
 }
+

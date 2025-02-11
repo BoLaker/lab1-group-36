@@ -7,15 +7,18 @@ public class CarTest {
     private Car Volvo240;
     private Scania Scania;
     private Car Saab95;
+    private CarTransport CarTransport;
 
     @BeforeEach
     void setUp() {
         Volvo240 = new Volvo240();
         Volvo240.setSpeed(1);// Startspeed for movement tests
         Saab95 = new Saab95();
-        Saab95.setSpeed(1);// Startspeed for movement tests
+        Saab95.setSpeed(1);
         Scania = new Scania();
-        Scania.setSpeed(0);// Startspeed for movement tests
+        Scania.setSpeed(0);
+        CarTransport = new CarTransport();
+        CarTransport.setSpeed(0);
     }
 
     @Test
@@ -129,6 +132,8 @@ public class CarTest {
         Scania.raiseTrailer(20);
         assertEquals(0, Scania.getTrailerTilt()); // Should not change
     }
+
+    // Cartransport Test //TODO tester till biltransport
 }
 
 

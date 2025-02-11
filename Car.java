@@ -87,6 +87,11 @@ public class Car implements Movable {
         currentSpeed = Math.max(currentSpeed - amount, 0);
     }
 
+    public void setPosition(double x, double y){
+        this.x = x;
+        this.y = y;
+    }
+
     @Override
     public void move() {
         switch (direction) {
