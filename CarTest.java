@@ -22,13 +22,13 @@ public class CarTest {
     void testStartPosition() {
         assertEquals(0, Volvo240.getX());
         assertEquals(0, Volvo240.getY());
-        assertEquals("North", Volvo240.getDirection());
+        assertEquals(Car.Direction.North, Volvo240.getDirection());
         assertEquals(0, Saab95.getX());
         assertEquals(0, Saab95.getY());
-        assertEquals("North", Saab95.getDirection());
+        assertEquals(Car.Direction.North, Saab95.getDirection());
         assertEquals(0, Scania.getX());
         assertEquals(0, Scania.getY());
-        assertEquals("North", Scania.getDirection());
+        assertEquals(Car.Direction.North, Scania.getDirection());
     }
 
     @Test
@@ -69,7 +69,7 @@ public class CarTest {
         Volvo240.turnRight(); // South
         Volvo240.turnRight(); // West
         Volvo240.turnRight(); // North (back to start)
-        assertEquals("North", Volvo240.getDirection());
+        assertEquals(Car.Direction.North, Volvo240.getDirection());
     }
 
     @Test
