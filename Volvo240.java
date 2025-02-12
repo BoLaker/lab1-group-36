@@ -12,9 +12,4 @@ class Volvo240 extends Car{
         return super.speedFactor() * trimFactor;
     }
 
-    // TODO fix this method according to lab pm
-
-
-    // TODO fix this method according to lab pm
-
 }

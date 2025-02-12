@@ -4,7 +4,7 @@ import java.util.Stack;
 public class CarTransport extends Truck{
     private boolean rampDown;
     private final int maxCars = 6;
-    private Stack<Car> loadedCars;
+    public Stack<Car> loadedCars;
 
     CarTransport(){
         super(2, 350, Color.BLACK, "BilTransport");
@@ -41,12 +41,13 @@ public class CarTransport extends Truck{
         return loadedCars;
     }
     @Override
-    public void move(){
-        if (loadedCars.isEmpty()){
-            super.move();
-            for (Car car : loadedCars){
+    public void move() {
+        super.move(); // Flytta lastbilen först
+        if (!loadedCars.isEmpty()) { // Endast om det finns lastade bilar
+            for (Car car : loadedCars) {
                 car.setPosition(getX(), getY());
             }
         }
     }
+    
 }

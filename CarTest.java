@@ -11,6 +11,7 @@ public class CarTest {
     private CarTransport CarTransport;
     private Volvo240 v1;
     private Volvo240 v2;
+    private Volvo240 v3;
     private CarWorkshop<Volvo240> volvoWorkshop;
 
 
@@ -22,8 +23,11 @@ public class CarTest {
         Saab95.setSpeed(1);// Startspeed for movement tests
         Scania = new Scania();
         Scania.setSpeed(0);// Startspeed for movement tests
+        CarTransport = new CarTransport();
         v1 = new Volvo240();
         v2 = new Volvo240();
+        v3 = new Volvo240();
+
         volvoWorkshop = new CarWorkshop(1);
         
     }
@@ -149,6 +153,18 @@ public class CarTest {
         assertThrows(IllegalArgumentException.class, () -> volvoWorkshop.loadCar(v2));
         volvoWorkshop.unloadCar(v1);
         assertThrows(IllegalArgumentException.class, () -> volvoWorkshop.unloadCar(v2));
+    }
+
+    //CarTransport tester 
+
+    @Test
+    void testPositions(){
+        CarTransport.lowerRamp();
+        CarTransport.loadCar(v3);
+        assertEquals(v3.getY(), CarTransport.getY());
+        CarTransport.gas(0.6);
+        CarTransport.move();
+        assertEquals(CarTransport.getY(), v3.getY());
     }
 
 }

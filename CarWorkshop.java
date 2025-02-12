@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class CarWorkshop<T extends Car>{
-    private int maxCars;
+    private final int maxCars;
     private ArrayList<T> cars = new ArrayList<>();
     
     public CarWorkshop(int maxCars){
@@ -17,7 +17,8 @@ public class CarWorkshop<T extends Car>{
     }
     public T unloadCar(T car){
         if (!cars.isEmpty()){
-            return cars.remove(cars.size()-1);
+            cars.remove(car);
+            return car;
         }
         throw new IllegalArgumentException("Ingen bil att hämta");
     }

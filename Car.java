@@ -156,6 +156,6 @@ public abstract class Car implements Movable {
         }
     }
     public static void main(String[] args){
-
-    }
+     
+}
 }
