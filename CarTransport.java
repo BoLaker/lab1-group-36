@@ -21,12 +21,19 @@ public class CarTransport extends Truck{
     public  void raiseRamp(){
         rampDown = false;
     }
+    public boolean getRampStatus(){
+        return rampDown;
+    }
 
-    public void loadCar(Car car){
-        if (rampDown && getCurrentSpeed() == 0 && loadedCars.size() < maxCars){
+    public void loadCar(Car car){ // inte kunna lasta cartransport
+        if (rampDown && getCurrentSpeed() == 0 && loadedCars.size() < maxCars && !(car instanceof CarTransport)){
             loadedCars.push(car);
             car.setPosition(getX(), getY());
         }
+        else{
+            throw new IllegalArgumentException("Cant load cartransport to cartransport");
+        }
+
     }
 
     public Car unloadCar(){
@@ -43,11 +50,11 @@ public class CarTransport extends Truck{
     @Override
     public void move() {
         super.move(); // Flytta lastbilen först
-        if (!loadedCars.isEmpty()) { // Endast om det finns lastade bilar
+         // Endast om det finns lastade bilar
             for (Car car : loadedCars) {
                 car.setPosition(getX(), getY());
             }
-        }
+        
     }
     
 }

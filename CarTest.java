@@ -13,6 +13,7 @@ public class CarTest {
     private Volvo240 v2;
     private Volvo240 v3;
     private CarWorkshop<Volvo240> volvoWorkshop;
+    private CarTransport transport;
 
 
     @BeforeEach
@@ -23,11 +24,12 @@ public class CarTest {
         Saab95.setSpeed(1);// Startspeed for movement tests
         Scania = new Scania();
         Scania.setSpeed(0);// Startspeed for movement tests
-        CarTransport = new CarTransport();
         v1 = new Volvo240();
         v2 = new Volvo240();
         v3 = new Volvo240();
 
+        CarTransport = new CarTransport();
+        transport = new CarTransport();
         volvoWorkshop = new CarWorkshop(1);
         
     }
@@ -138,7 +140,7 @@ public class CarTest {
     }
 
     @Test
-    void testRaisePlatformWhileMoving() {
+    void testRaisePlatformWhileMoving() { //testa tvärtom
         Scania.gas(1); // Start moving
         Scania.raiseTrailer(20);
         assertEquals(0, Scania.getTrailerTilt()); // Should not change
@@ -147,7 +149,7 @@ public class CarTest {
     //CartWorkshop test
 
     @Test
-    void testLoadCars(){
+    void testLoadCarsWorkshop(){
         volvoWorkshop.loadCar(v1);
         assertEquals(1, volvoWorkshop.getcars().size());
         assertThrows(IllegalArgumentException.class, () -> volvoWorkshop.loadCar(v2));
@@ -156,16 +158,29 @@ public class CarTest {
     }
 
     //CarTransport tester 
-
     @Test
-    void testPositions(){
-        CarTransport.lowerRamp();
-        CarTransport.loadCar(v3);
-        assertEquals(v3.getY(), CarTransport.getY());
-        CarTransport.gas(0.6);
-        CarTransport.move();
-        assertEquals(CarTransport.getY(), v3.getY());
-    }
+        void testCarTransportRampCannotLowerWhileMoving() {
+            CarTransport.gas(1);
+            CarTransport.lowerRamp();
+            assertEquals(false, CarTransport.getRampStatus());
+        }
+    
+        @Test
+        void testLoadCar() {
+            transport.lowerRamp(); 
+            transport.loadCar(Saab95);
+            
+            assertThrows(IllegalArgumentException.class, () -> transport.loadCar(CarTransport));
+            assertEquals(1, transport.getCars().size(), "Car should be loaded onto CarTransport");
+        }
+    
+        @Test
+        void testCarTransportUnloadCar() {
+            CarTransport.lowerRamp();
+            CarTransport.loadCar(Saab95);
+            Car unloadedCar = CarTransport.unloadCar();
+            assertEquals(Saab95, unloadedCar);
+        }
 
 }
 
