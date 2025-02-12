@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.awt.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,6 +11,7 @@ public class CarTest {
     private Scania Scania;
     private Car Saab95;
     private CarTransport CarTransport;
+    private Car testCar;
 
     @BeforeEach
     void setUp() {
@@ -133,7 +137,33 @@ public class CarTest {
         assertEquals(0, Scania.getTrailerTilt()); // Should not change
     }
 
-    // Cartransport Test //TODO tester till biltransport
+    // Cartransport Test //TODO tester till CarTransport
+    @Test
+    void testCarTransportRampCannotLowerWhileMoving() {
+        CarTransport.gas(1);
+        CarTransport.lowerRamp();
+        assertEquals(false, CarTransport.rampDown);
+    }
+
+    @Test
+    public void testLoadCar() {
+        CarTransport transport = new CarTransport();
+        Car car = new Car(4, 75, Color.CYAN, "testcar"); // Ensure this is properly initialized
+
+        transport.lowerRamp(); // Ramp must be down
+        transport.loadCar(car);
+
+        assertEquals(1, transport.getLoadedCars().size(), "Car should be loaded onto CarTransport");
+    }
+
+    @Test
+    void testCarTransportUnloadCar() {
+        CarTransport.lowerRamp();
+        CarTransport.loadCar(testCar);
+        Car unloadedCar = CarTransport.unloadCar();
+        assertEquals(testCar, unloadedCar);
+    }
+
 }
 
 
