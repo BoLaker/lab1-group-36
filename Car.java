@@ -75,6 +75,10 @@ public abstract class Car implements Movable {
     public void setSpeed(double speed) {
         this.currentSpeed = speed;
     }
+    public void setPosition(double x, double y){
+        this.x = x;
+        this.y = y;
+    }
 
     public void gas(double amount){
         if (amount < 0 || amount > 1){

@@ -1,12 +1,18 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Stack;
 
 public class CarTest {
     private Car Volvo240;
     private Scania Scania;
     private Car Saab95;
+    private CarTransport CarTransport;
+    private Volvo240 v1;
+    private Volvo240 v2;
+    private CarWorkshop<Volvo240> volvoWorkshop;
+
 
     @BeforeEach
     void setUp() {
@@ -16,6 +22,10 @@ public class CarTest {
         Saab95.setSpeed(1);// Startspeed for movement tests
         Scania = new Scania();
         Scania.setSpeed(0);// Startspeed for movement tests
+        v1 = new Volvo240();
+        v2 = new Volvo240();
+        volvoWorkshop = new CarWorkshop(1);
+        
     }
 
     @Test
@@ -129,6 +139,18 @@ public class CarTest {
         Scania.raiseTrailer(20);
         assertEquals(0, Scania.getTrailerTilt()); // Should not change
     }
+
+    //CartWorkshop test
+
+    @Test
+    void testLoadCars(){
+        volvoWorkshop.loadCar(v1);
+        assertEquals(1, volvoWorkshop.getcars().size());
+        assertThrows(IllegalArgumentException.class, () -> volvoWorkshop.loadCar(v2));
+        volvoWorkshop.unloadCar(v1);
+        assertThrows(IllegalArgumentException.class, () -> volvoWorkshop.unloadCar(v2));
+    }
+
 }
 
 
