@@ -41,7 +41,7 @@ public class Scania extends Car{
 
     @Override
     public double speedFactor(){
-        return super.speedFactor();
+        return getEnginePower()*0.01;
     }
 
    

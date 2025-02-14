@@ -3,11 +3,11 @@
 import java.awt.*;
 public abstract class Car implements Movable {
     
-    public int nrDoors; // Number of doors on the car
-    public double enginePower; // Engine power of the car
-    public double currentSpeed; // The current speed of the car
-    public Color color; // Color of the car
-    public String modelName; // The car model name
+    private int nrDoors; // Number of doors on the car
+    private double enginePower; // Engine power of the car
+    private double currentSpeed; // The current speed of the car
+    private Color color; // Color of the car
+    private String modelName; // The car model name
     private double x, y; // Bilens position
     public enum Direction{
         North,South,West,East
@@ -56,9 +56,7 @@ public abstract class Car implements Movable {
         currentSpeed = 0;
     }
 
-    public double speedFactor() {
-        return enginePower * 0.01;
-    }
+    public abstract double speedFactor();
 
     public double getX() {
         return x;
@@ -72,9 +70,6 @@ public abstract class Car implements Movable {
         return direction;
     }
 
-    public void setSpeed(double speed) {
-        this.currentSpeed = speed;
-    }
     public void setPosition(double x, double y){
         this.x = x;
         this.y = y;
@@ -84,14 +79,14 @@ public abstract class Car implements Movable {
         if (amount < 0 || amount > 1){
             throw new IllegalArgumentException("Can only increase gas by 1");
         }
-        currentSpeed = Math.min(currentSpeed + amount, enginePower);
+       incrementSpeed(amount);
     }
 
     public void brake(double amount){
         if (amount < 0 || amount > 1){
             throw new IllegalArgumentException("Can only decrease brake by 1");
         }
-        currentSpeed = Math.max(currentSpeed - amount, 0);
+        decrementSpeed(amount);
     }
     private void incrementSpeed(double amount){
         currentSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,enginePower);

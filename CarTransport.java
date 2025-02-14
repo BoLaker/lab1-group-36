@@ -42,7 +42,7 @@ public class CarTransport extends Truck{
             car.setPosition(getX() + 1, getY());
             return car;
         }
-        return null;
+        throw new IllegalArgumentException("Cant unload Car");
     }
     public Stack<Car> getCars(){
         return loadedCars;

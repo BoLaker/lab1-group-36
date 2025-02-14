@@ -16,23 +16,29 @@ public class CarTest {
     private CarTransport transport;
 
 
+    
     @BeforeEach
     void setUp() {
-        Volvo240 = new Volvo240();
-        Volvo240.setSpeed(1);// Startspeed for movement tests
-        Saab95 = new Saab95();
-        Saab95.setSpeed(1);// Startspeed for movement tests
-        Scania = new Scania();
-        Scania.setSpeed(0);// Startspeed for movement tests
-        v1 = new Volvo240();
-        v2 = new Volvo240();
-        v3 = new Volvo240();
+    Volvo240 = new Volvo240();
+    Saab95 = new Saab95();
+    Scania = new Scania();
+    v1 = new Volvo240();
+    v2 = new Volvo240();
+    v3 = new Volvo240();
 
-        CarTransport = new CarTransport();
-        transport = new CarTransport();
-        volvoWorkshop = new CarWorkshop(1);
-        
-    }
+    CarTransport = new CarTransport();
+    transport = new CarTransport();
+    volvoWorkshop = new CarWorkshop<>(1);
+
+   
+    Volvo240.startEngine(); 
+    Volvo240.gas(1); 
+    Saab95.startEngine();
+    Saab95.gas(1);
+    Scania.startEngine();
+    
+}
+
 
     @Test
     void testStartPosition() {
@@ -49,34 +55,42 @@ public class CarTest {
 
     @Test
     void testMoveNorth() {
+        Volvo240.startEngine();
+        Volvo240.gas(1);
         Volvo240.move();
         assertEquals(0, Volvo240.getX()); // X should remain the same
-        assertEquals(1, Volvo240.getY()); // Y should increase by speed
+        assertTrue( Volvo240.getY() > 0); // Y should increase by speed
     }
 
     @Test
     void testMoveEastAfterTurn() {
+        Volvo240.startEngine();
+        Volvo240.gas(1);
         Volvo240.turnRight(); // Turn to East
         Volvo240.move();
-        assertEquals(1, Volvo240.getX()); // X should increase by speed
+        assertTrue( Volvo240.getX()>0); // X should increase by speed
         assertEquals(0, Volvo240.getY()); // Y should remain the same
     }
 
     @Test
     void testMoveWestAfterTurn() {
+        Volvo240.startEngine();
+        Volvo240.gas(1);
         Volvo240.turnLeft(); // Turn to West
         Volvo240.move();
-        assertEquals(-1, Volvo240.getX()); // X should decrease by speed
+        assertTrue( Volvo240.getX()<0); // X should decrease by speed
         assertEquals(0, Volvo240.getY()); // Y should remain the same
     }
 
     @Test
     void testMoveSouthAfterTurn() {
+        Volvo240.startEngine();
+        Volvo240.gas(1);
         Volvo240.turnRight(); // East
         Volvo240.turnRight(); // South
         Volvo240.move();
         assertEquals(0, Volvo240.getX());
-        assertEquals(-1, Volvo240.getY()); // Y should decrease by speed
+        assertTrue(Volvo240.getY()<0); // Y should decrease by speed
     }
 
     @Test
@@ -90,22 +104,26 @@ public class CarTest {
 
     @Test
     void testNoMovementWhenSpeedIsZero() {
-        Volvo240.setSpeed(0);
+        Volvo240.startEngine();
+        Volvo240.brake(1);
         Volvo240.move();
         assertEquals(0, Volvo240.getX());
         assertEquals(0, Volvo240.getY());
     }
+    
 
     @Test
     void testGasIncreasesSpeed(){
+        double initialSpeed = Volvo240.getCurrentSpeed();
         Volvo240.gas(1);
-        assertEquals(2, Volvo240.getCurrentSpeed());
+        assertTrue(initialSpeed < Volvo240.getCurrentSpeed());
     }
 
     @Test
     void testBrakeDecreasesSpeed(){
+        double initialSpeed = Volvo240.getCurrentSpeed();
         Volvo240.brake(1);
-        assertEquals(0, Volvo240.getCurrentSpeed());
+        assertTrue(initialSpeed > Volvo240.getCurrentSpeed());
     }
 
     @Test
@@ -120,7 +138,7 @@ public class CarTest {
         for (int i = 0; i < 100; i++) { // Gasses more than enginepower
             Volvo240.gas(1);
     }
-        assertEquals(100, Volvo240.getCurrentSpeed()); // Should not exceed enginePower
+        assertEquals(Volvo240.getEnginePower(), Volvo240.getCurrentSpeed()); // Should not exceed enginePower
     }
 
     @Test
@@ -135,12 +153,14 @@ public class CarTest {
 
     @Test
     void testRaisePlatform() {
+        Scania.stopEngine();
         Scania.raiseTrailer(30);
         assertEquals(30, Scania.getTrailerTilt());
     }
 
     @Test
-    void testRaisePlatformWhileMoving() { //testa tvärtom
+    void testRaisePlatformWhileMoving() { 
+        
         Scania.gas(1); // Start moving
         Scania.raiseTrailer(20);
         assertEquals(0, Scania.getTrailerTilt()); // Should not change
