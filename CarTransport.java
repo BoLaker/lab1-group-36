@@ -1,16 +1,10 @@
 import java.awt.*;
 import java.util.Stack;
 
-
 public class CarTransport extends Truck{
-    public boolean rampDown;
+    private boolean rampDown;
     private final int maxCars = 6;
-    private Stack<Car> loadedCars;
-
-
-    public Stack<Car> getLoadedCars(){
-        return loadedCars;
-    }
+    public Stack<Car> loadedCars;
 
     CarTransport(){
         super(2, 350, Color.BLACK, "BilTransport");
@@ -27,42 +21,40 @@ public class CarTransport extends Truck{
     public  void raiseRamp(){
         rampDown = false;
     }
+    public boolean getRampStatus(){
+        return rampDown;
+    }
 
-    public void loadCar(Car car) {
-        System.out.println("Attempting to load car: " + car);
-        System.out.println("Ramp down: " + rampDown + ", Speed: " + getCurrentSpeed() + ", Cars loaded: " + loadedCars.size());
-
-        if (car != null && rampDown && getCurrentSpeed() == 0 && loadedCars.size() < maxCars) {
+    public void loadCar(Car car){ // inte kunna lasta cartransport
+        if (rampDown && getCurrentSpeed() == 0 && loadedCars.size() < maxCars && !(car instanceof CarTransport)){
             loadedCars.push(car);
             car.setPosition(getX(), getY());
-            System.out.println("Car loaded successfully! New count: " + loadedCars.size());
-        } else {
-            System.out.println("Failed to load car.");
         }
+        else{
+            throw new IllegalArgumentException("Cant load cartransport to cartransport");
+        }
+
     }
 
-
-
-    public Car unloadCar() {
-        if (!rampDown || getCurrentSpeed() > 0 || loadedCars.isEmpty()) {
-            return null; // Return null safely instead of causing an exception
+    public Car unloadCar(){
+        if (rampDown && getCurrentSpeed() == 0 && !loadedCars.isEmpty()){
+            Car car = loadedCars.pop();
+            car.setPosition(getX() + 1, getY());
+            return car;
         }
-
-        Car car = loadedCars.pop();
-        if (car != null) {
-            car.setPosition(getX() + 1, getY()); // Place the car next to the truck
-        }
-        return car;
+        throw new IllegalArgumentException("Cant unload Car");
     }
-
-
+    public Stack<Car> getCars(){
+        return loadedCars;
+    }
     @Override
-    public void move(){
-        if (loadedCars.isEmpty()){
-            super.move();
-            for (Car car : loadedCars){
+    public void move() {
+        super.move(); // Flytta lastbilen först
+         // Endast om det finns lastade bilar
+            for (Car car : loadedCars) {
                 car.setPosition(getX(), getY());
             }
-        }
+        
     }
+    
 }
