@@ -1,6 +1,8 @@
 /*Eftersom klasserna Saaab95 och Volvo240 delar många egenskaper och metoder är implementationsarv att föredra för att minska dupplicering av kod. */
 
 import java.awt.*;
+import java.awt.geom.Point2D;
+
 public abstract class Car implements Movable {
     
     private int nrDoors; // Number of doors on the car
@@ -75,6 +77,10 @@ public abstract class Car implements Movable {
         this.y = y;
     }
 
+    public void setDirection(Direction newDirection) {
+        this.direction = newDirection;
+    }
+
     public void gas(double amount){
         if (amount < 0 || amount > 1){
             throw new IllegalArgumentException("Can only increase gas by 1");
@@ -96,24 +102,19 @@ public abstract class Car implements Movable {
         currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
     }
 
-    public void setPosition(double x, double y){
-        this.x = x;
-        this.y = y;
-    }
-
     @Override
     public void move() {
         switch (direction) {
-            case Direction.North:
+            case North:
                 y += currentSpeed;
                 break;
-            case Direction.South:
+            case South:
                 y -= currentSpeed;
                 break;
-            case Direction.East:
+            case East:
                 x += currentSpeed;
                 break;
-            case Direction.West:
+            case West:
                 x -= currentSpeed;
                 break;
         }
@@ -122,16 +123,16 @@ public abstract class Car implements Movable {
     @Override
     public void turnLeft() {
         switch (direction) {
-            case Direction.North:
+            case North:
                 direction = Direction.West;
                 break;
-            case Direction.West:
+            case West:
                 direction = Direction.South;
                 break;
-            case Direction.South:
+            case South:
                 direction = Direction.East;
                 break;
-            case Direction.East:
+            case East:
                 direction = Direction.North;
                 break;
 
@@ -141,16 +142,16 @@ public abstract class Car implements Movable {
     @Override
     public void turnRight() {
         switch (direction) {
-            case Direction.North:
+            case North:
                 direction = Direction.East;
                 break;
-            case Direction.East:
+            case East:
                 direction = Direction.South;
                 break;
-            case Direction.South:
+            case South:
                 direction = Direction.West;
                 break;
-            case Direction.West:
+            case West:
                 direction = Direction.North;
                 break;
         }

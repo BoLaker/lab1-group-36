@@ -1,0 +1,3 @@
+[submodule "lab2-old"]
+	path = lab2-old
+	url = https://github.com/LeonHem/lab2-old.git
