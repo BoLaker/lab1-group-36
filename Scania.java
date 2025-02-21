@@ -31,6 +31,8 @@ public class Scania extends Car{
     }
 
     public void move() {
+        System.out.println(getCurrentSpeed());
+        System.out.println(getTrailerTilt());
         if (TrailerTilt > 0) {
             System.out.println("Can't move with raised trailer");
         }

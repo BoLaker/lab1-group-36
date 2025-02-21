@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 public abstract class Car implements Movable {
-    
+
     private int nrDoors; // Number of doors on the car
     private double enginePower; // Engine power of the car
     private double currentSpeed; // The current speed of the car
@@ -15,6 +15,7 @@ public abstract class Car implements Movable {
         North,South,West,East
     }
     private Direction direction;
+    private boolean isFrozen = false;
 
     Car(int Doors, double power, Color paint, String model) {
         nrDoors = Doors;
@@ -75,6 +76,12 @@ public abstract class Car implements Movable {
     public void setPosition(double x, double y){
         this.x = x;
         this.y = y;
+        if (x == 300) {
+            isFrozen = true;
+            System.out.println("Car is in the workshop");
+        } else {
+            isFrozen = false;
+        }
     }
 
     public void setDirection(Direction newDirection) {
@@ -102,21 +109,27 @@ public abstract class Car implements Movable {
         currentSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
     }
 
+
+
+
+
     @Override
     public void move() {
-        switch (direction) {
-            case North:
-                y += currentSpeed;
-                break;
-            case South:
-                y -= currentSpeed;
-                break;
-            case East:
-                x += currentSpeed;
-                break;
-            case West:
-                x -= currentSpeed;
-                break;
+        if (!isFrozen) {
+            switch (direction) {
+                case North:
+                    y += currentSpeed;
+                    break;
+                case South:
+                    y -= currentSpeed;
+                    break;
+                case East:
+                    x += currentSpeed;
+                    break;
+                case West:
+                    x -= currentSpeed;
+                    break;
+            }
         }
     }
 

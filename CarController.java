@@ -72,6 +72,14 @@ public class CarController {
                     frame.drawPanel.moveit(car ,x, y);
                 }
             }
+            for (Car car : cars) {
+                if (car instanceof Volvo240 volvo240) {
+                    double x = volvo240.getX();
+                    if (x >= 250 && x <= 350){
+                        volvo240.setPosition(300, volvo240.getY());
+                    }
+                }
+            }
         }
     }
 

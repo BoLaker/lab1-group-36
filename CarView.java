@@ -115,6 +115,68 @@ public class CarView extends JFrame{
             }
         });
 
+        liftBedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(Car car : carC.cars){
+                    if (car instanceof Scania scania){
+                        scania.raiseTrailer(70);
+                    }
+                }
+            }
+        });
+
+        lowerBedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(Car car : carC.cars){
+                    if (car instanceof Scania scania){
+                        scania.lowerTrailer(70);
+                    }
+                }
+            }
+        });
+
+        turboOnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(Car car : carC.cars){
+                    if (car instanceof Saab95 saab95){
+                        saab95.setTurboOn();
+                    }
+                }
+            }
+        });
+
+        turboOffButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Car car : carC.cars){
+                    if (car instanceof Saab95 saab95){
+                        saab95.setTurboOff();
+                    }
+                }
+            }
+        });
+
+        stopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(Car car : carC.cars){
+                    car.stopEngine();
+                }
+            }
+        });
+
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(Car car : carC.cars){
+                    car.startEngine();
+                }
+            }
+        });
+
         // Make the frame pack all it's components by respecting the sizes if possible.
         this.pack();
 
