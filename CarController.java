@@ -9,7 +9,7 @@ import java.util.ArrayList;
 * modifying the model state and the updating the view.
  */
 
-public class CarController {
+public class CarController implements CarButtonListener{
     // member fields:
 
     // The delay (ms) corresponds to 20 updates a sec (hz)
@@ -84,17 +84,74 @@ public class CarController {
     }
 
     // Calls the gas method for each car once
-    void gas(int amount) {
+    @Override
+    public void gas(int amount) {
         double gas = ((double) amount) / 100;
         for (Car car : cars) {
             car.gas(gas);
         }
     }
 
-    void brake(int amount) {
+    @Override
+    public void brake(int amount) {
         double brake = ((double) amount) / 100;
         for (Car car : cars) {
             car.brake(brake);
         }
     }
+
+    @Override
+    public void startAllCars() {
+        for (Car car : cars) {
+            car.startEngine();
+        }
+    }
+
+    @Override
+    public void stopAllCars() {
+        for (Car car : cars) {
+            car.stopEngine();
+        }
+    }
+
+    @Override
+    public void raiseTrailer(int amount) {
+        for (Car car : cars) {
+            if (car instanceof Scania) {
+                Scania scania = (Scania) car;
+                scania.raiseTrailer(amount);
+            }
+        }
+    }
+
+    @Override
+    public void lowerTrailer(int amount) {
+        for (Car car : cars) {
+            if (car instanceof Scania) {
+                Scania scania = (Scania) car;
+                scania.lowerTrailer(amount);
+            }
+        }
+    }
+
+    @Override
+    public void setTurboOn() {
+        for (Car car : cars) {
+            if (car instanceof Saab95) {
+                Saab95 saab95 = (Saab95) car;
+                saab95.setTurboOn();
+            }
+        }
+    }
+
+    @Override
+    public void setTurboOff() {
+        for (Car car : cars) {
+            if (car instanceof Saab95) {
+                Saab95 saab95 = (Saab95) car;
+                saab95.setTurboOff();
+            }
+        }
+    }
 }
+
