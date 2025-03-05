@@ -19,7 +19,7 @@ public class CarController implements CarButtonListener{
     private Timer timer = new Timer(delay, new TimerListener());
 
     // The frame that represents this instance View of the MVC pattern
-    CarView frame;
+    public CarView frame;
     // A list of cars, modify if needed
     ArrayList<Car> cars = new ArrayList<>();
 
@@ -75,7 +75,8 @@ public class CarController implements CarButtonListener{
             for (Car car : cars) {
                 if (car instanceof Volvo240 volvo240) {
                     double x = volvo240.getX();
-                    if (x >= 250 && x <= 350){
+                    double y = volvo240.getY();
+                    if (x >= 250 && x <= 350 && y >= 250 && y <= 350){
                         volvo240.setPosition(300, volvo240.getY());
                     }
                 }

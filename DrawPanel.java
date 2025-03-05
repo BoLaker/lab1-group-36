@@ -9,15 +9,15 @@ import javax.swing.*;
 public class DrawPanel extends JPanel{
 
     // Just a single image, TODO: Generalize
-    BufferedImage volvoImage;
-    BufferedImage saabImage;
-    BufferedImage scaniaImage;
+    private BufferedImage volvoImage;
+    private BufferedImage saabImage;
+    private BufferedImage scaniaImage;
     // To keep track of a single car's position
-    Point volvoPoint = new Point();
-    Point saabPoint = new Point(0,100);
-    Point scaniaPoint = new Point(0,200);
-    BufferedImage volvoWorkshopImage;
-    Point volvoWorkshopPoint = new Point(300,300);
+    public Point volvoPoint = new Point();
+    public Point saabPoint = new Point(0,100);
+    public Point scaniaPoint = new Point(0,200);
+    private BufferedImage volvoWorkshopImage;
+    public Point volvoWorkshopPoint = new Point(300,300);
 
     // TODO: Make this general for all cars
     void moveit(Car carName, int x, int y){
