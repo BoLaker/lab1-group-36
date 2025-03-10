@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
 * This class represents the Controller part in the MVC pattern.
@@ -18,38 +19,49 @@ public class CarController implements CarButtonListener{
     // each step between delays.
     private Timer timer = new Timer(delay, new TimerListener());
 
-    // The frame that represents this instance View of the MVC pattern
-    public CarView frame;
+
     // A list of cars, modify if needed
     ArrayList<Car> cars = new ArrayList<>();
 
+    private List<CarObserver> observers = new ArrayList<>();
+    public CarController(ArrayList<Car> cars){
+        this.cars = cars;
+        this.timer.start();
+    }
     //methods:
+    public void addObserver(CarObserver observer) {
+        observers.add(observer);
+    }
 
+    private void notifyObservers() {
+        for (CarObserver observer : observers) {
+            observer.updateCars(cars);
+        }
+    }
     public static void main(String[] args) {
         // Instance of this class
-        CarController cc = new CarController();
+        ArrayList<Car> cars = new ArrayList<>();
 
-        Volvo240 volvo240 = new Volvo240();
-        volvo240.turnRight();
-        volvo240.setPosition(0, 300);
+        Volvo240 volvo = new Volvo240();
+        volvo.setPosition(0, 300);
+        volvo.turnRight();
 
-        Saab95 saab95 = new Saab95();
-        saab95.turnRight();
-        saab95.setPosition(0, 100);
+        Saab95 saab = new Saab95();
+        saab.setPosition(0, 100);
+        saab.turnRight();
 
         Scania scania = new Scania();
-        scania.turnRight();
         scania.setPosition(0, 200);
+        scania.turnRight();
 
-        cc.cars.add(volvo240);
-        cc.cars.add(saab95);
-        cc.cars.add(scania);
+        cars.add(volvo);
+        cars.add(saab);
+        cars.add(scania);
 
         // Start a new view and send a reference of self
-        cc.frame = new CarView("CarSim 1.0", cc);
-
-        // Start the timer
-        cc.timer.start();
+        CarController controller = new CarController(cars);
+        CarView view = new CarView("CarSim 1.0", controller);
+        controller.addObserver(view); // Koppla View som observer
     }
 
     /* Each step the TimerListener moves all the cars in the list and tells the
@@ -61,26 +73,14 @@ public class CarController implements CarButtonListener{
                 car.move();
                 int x = (int) Math.round(car.getX());
                 int y = (int) Math.round(car.getY());
-                frame.drawPanel.moveit(car, x, y);
-                // repaint() calls the paintComponent method of the panel
-                frame.drawPanel.repaint();
+
                 if (x >= 699 || x <= -50 || y >= 499 || y <= 0) {
                     car.turnLeft();
                     car.turnLeft();
-                    car.setPosition(Math.max(0, Math.min(699, car.getX())), Math.max(0, Math.min(699, car.getY())));
-
-                    frame.drawPanel.moveit(car ,x, y);
+                    car.setPosition(Math.max(0, Math.min(699, car.getX())), Math.max(0, Math.min(499, car.getY())));
                 }
             }
-            for (Car car : cars) {
-                if (car instanceof Volvo240 volvo240) {
-                    double x = volvo240.getX();
-                    double y = volvo240.getY();
-                    if (x >= 250 && x <= 350 && y >= 250 && y <= 350){
-                        volvo240.setPosition(300, volvo240.getY());
-                    }
-                }
-            }
+            notifyObservers();
         }
     }
 

@@ -36,8 +36,8 @@ public class DrawPanel extends JPanel{
             }
             default -> throw new IllegalStateException("Unexpected value: " + carName);
         }
-
     }
+   
 
     // Initializes the panel and reads the images
     public DrawPanel(int x, int y) {
