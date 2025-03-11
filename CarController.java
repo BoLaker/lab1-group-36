@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /*
 * This class represents the Controller part in the MVC pattern.
@@ -19,6 +20,15 @@ public class CarController implements CarButtonListener{
     // each step between delays.
     private Timer timer = new Timer(delay, new TimerListener());
 
+    private Car generateRandomCar() {
+        int randomNum = new Random().nextInt(3); // Assuming 3 types of cars
+        switch (randomNum) {
+            case 0: return new Volvo240();
+            case 1: return new Saab95();
+            case 2: return new Scania();
+            default: return new Volvo240();
+        }
+    }
 
     // A list of cars, modify if needed
     ArrayList<Car> cars = new ArrayList<>();
@@ -81,6 +91,26 @@ public class CarController implements CarButtonListener{
                 }
             }
             notifyObservers();
+        }
+    }
+
+    public void addCar() {
+        if (cars.size() < 10) { // Prevent more than 10 cars
+            Car newCar = generateRandomCar();
+
+            // Set random starting position (within the panel size)
+            int randomX = new Random().nextInt(700); // Adjust to fit screen width
+            int randomY = new Random().nextInt(500); // Adjust to fit screen height
+
+            newCar.setPosition(randomX, randomY);
+
+            cars.add(newCar);
+        }
+    }
+
+    public void removeCar() {
+        if (!cars.isEmpty()) { // Only remove if there's a car
+            cars.remove(cars.size() - 1); // Remove the last added car
         }
     }
 

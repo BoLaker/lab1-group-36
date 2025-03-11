@@ -7,5 +7,7 @@ public interface CarButtonListener {
     void lowerTrailer(int amount);
     void setTurboOn();
     void setTurboOff();
+    void addCar();
+    void removeCar();
 }
 
