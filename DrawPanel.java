@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -9,33 +13,17 @@ import javax.swing.*;
 public class DrawPanel extends JPanel{
 
     // Just a single image, TODO: Generalize
+    private List<Car> cars = new ArrayList<>();
     private BufferedImage volvoImage;
     private BufferedImage saabImage;
     private BufferedImage scaniaImage;
     // To keep track of a single car's position
-    public Point volvoPoint = new Point();
-    public Point saabPoint = new Point(0,100);
-    public Point scaniaPoint = new Point(0,200);
     private BufferedImage volvoWorkshopImage;
     public Point volvoWorkshopPoint = new Point(300,300);
 
     // TODO: Make this general for all cars
     void moveit(Car carName, int x, int y){
-        switch (carName){
-            case Volvo240 ignored -> {
-                volvoPoint.x = x;
-                volvoPoint.y = y;
-            }
-            case Saab95 ignored -> {
-                saabPoint.x = x;
-                saabPoint.y = y;
-            }
-            case Scania ignored -> {
-                scaniaPoint.x = x;
-                scaniaPoint.y = y;
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + carName);
-        }
+        carName.setPosition(x,y);
     }
    
 
@@ -65,12 +53,28 @@ public class DrawPanel extends JPanel{
 
     // This method is called each time the panel updates/refreshes/repaints itself
     // TODO: Change to suit your needs.
+    public void setCars(List<Car> cars){
+        this.cars = cars;
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(volvoImage, volvoPoint.x, volvoPoint.y, null); // see javadoc for more info on the parameters
+        for (Car car : cars) {
+            BufferedImage carImage = null;
+            if (car instanceof Volvo240) {
+                carImage = volvoImage;
+            } else if (car instanceof Saab95) {
+                carImage = saabImage;
+            } else if (car instanceof Scania) {
+                carImage = scaniaImage;
+            }
+
+            if (carImage != null) {
+                g.drawImage(carImage, (int) car.getX(), (int) car.getY(), null);
+            }
+        }
+
+        // Rita verkstadsbilden
         g.drawImage(volvoWorkshopImage, volvoWorkshopPoint.x, volvoWorkshopPoint.y, null);
-        g.drawImage(saabImage, saabPoint.x, saabPoint.y, null);
-        g.drawImage(scaniaImage, scaniaPoint.x, scaniaPoint.y, null);
     }
 }

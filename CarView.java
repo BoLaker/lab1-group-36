@@ -17,7 +17,7 @@ import java.util.ArrayList;
  public class CarView extends JFrame implements CarObserver {
     private static final int X = 800;
     private static final int Y = 800;
-
+    
     // Lagra en referens till CarButtonListener
     CarButtonListener carButtonListener;
 
@@ -108,16 +108,7 @@ import java.util.ArrayList;
     }
     @Override
     public void updateCars(ArrayList<Car> cars) {
-        for (Car car : cars) {
-            if (car instanceof Volvo240 volvo240) {
-                double x = volvo240.getX();
-                double y = volvo240.getY();
-                if (x >= 250 && x <= 350 && y >= 250 && y <= 350){
-                    volvo240.setPosition(300, volvo240.getY());
-                }
-            }
-            drawPanel.moveit(car, (int) car.getX(), (int) car.getY());
-        }
+        drawPanel.setCars(cars);
         drawPanel.repaint();
     }
 }

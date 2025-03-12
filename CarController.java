@@ -105,12 +105,14 @@ public class CarController implements CarButtonListener{
             newCar.setPosition(randomX, randomY);
 
             cars.add(newCar);
+            notifyObservers();
         }
     }
 
     public void removeCar() {
         if (!cars.isEmpty()) { // Only remove if there's a car
             cars.remove(cars.size() - 1); // Remove the last added car
+            notifyObservers();
         }
     }
 
