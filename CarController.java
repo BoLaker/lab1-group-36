@@ -1,173 +1,49 @@
-import javax.swing.*;
-import java.awt.event.ActionEvent;
+import javax.swing.JButton;  
+import javax.swing.*; 
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+public class CarController {
+    private CarModel model;
+    private CarView view;
 
-/*
-* This class represents the Controller part in the MVC pattern.
-* It's responsibilities is to listen to the View and responds in a appropriate manner by
-* modifying the model state and the updating the view.
- */
+    
+    private JButton gasButton = new JButton("Gas");
+    private JButton brakeButton = new JButton("Brake");
+    private JButton startButton = new JButton("Start all cars");
+    private JButton stopButton = new JButton("Stop all cars");
+    private JButton turboOnButton = new JButton("Saab Turbo On");
+    private JButton turboOffButton = new JButton("Saab Turbo Off");
+    private JButton liftBedButton = new JButton("Scania Lift Bed");
+    private JButton lowerBedButton = new JButton("Lower Lift Bed");
+    private JButton addCarButton = new JButton("Add Car");
+    private JButton removeCarButton = new JButton("Remove Car");
 
-public class CarController implements CarButtonListener{
-    // member fields:
+    public CarController(CarModel model, CarView view) {
+        this.model = model;
+        this.view = view;
 
-    // The delay (ms) corresponds to 20 updates a sec (hz)
-    private final int delay = 50;
-    // The timer is started with a listener (see below) that executes the statements
-    // each step between delays.
-    private Timer timer = new Timer(delay, new TimerListener());
-
-    private Car generateRandomCar() {
-        int randomNum = new Random().nextInt(3); // Assuming 3 types of cars
-        switch (randomNum) {
-            case 0: return new Volvo240();
-            case 1: return new Saab95();
-            case 2: return new Scania();
-            default: return new Volvo240();
-        }
-    }
-
-    // A list of cars, modify if needed
-    ArrayList<Car> cars = new ArrayList<>();
-
-    private List<CarObserver> observers = new ArrayList<>();
-    public CarController(ArrayList<Car> cars){
-        this.cars = cars;
-        this.timer.start();
-    }
-    //methods:
-    public void addObserver(CarObserver observer) {
-        observers.add(observer);
-    }
-
-    private void notifyObservers() {
-        for (CarObserver observer : observers) {
-            observer.updateCars(cars);
-        }
-    }
-    public static void main(String[] args) {
         
+        view.addButtonToPanel(gasButton);
+        view.addButtonToPanel(brakeButton);
+        view.addButtonToPanel(startButton);
+        view.addButtonToPanel(stopButton);
+        view.addButtonToPanel(turboOnButton);
+        view.addButtonToPanel(turboOffButton);
+        view.addButtonToPanel(liftBedButton);
+        view.addButtonToPanel(lowerBedButton);
+        view.addButtonToPanel(addCarButton);
+        view.addButtonToPanel(removeCarButton);
 
-        // Start a new view and send a reference of self
-        CarController controller = new CarController(cars);
-        CarView view = new CarView("CarSim 1.0", controller);
-        controller.addObserver(view); // Koppla View som observer
-    }
-
-    /* Each step the TimerListener moves all the cars in the list and tells the
-    * view to update its images. Change this method to your needs.
-    * */
-    private class TimerListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            for (Car car : cars) {
-                car.move();
-                int x = (int) Math.round(car.getX());
-                int y = (int) Math.round(car.getY());
-
-                if (x >= 699 || x <= -50 || y >= 499 || y <= 0) {
-                    car.turnLeft();
-                    car.turnLeft();
-                    car.setPosition(Math.max(0, Math.min(699, car.getX())), Math.max(0, Math.min(499, car.getY())));
-                }
-            }
-            notifyObservers();
-        }
-    }
-
-    public void addCar() {
-        if (cars.size() < 10) { // Prevent more than 10 cars
-            Car newCar = generateRandomCar();
-
-            // Set random starting position (within the panel size)
-            int randomX = new Random().nextInt(700); // Adjust to fit screen width
-            int randomY = new Random().nextInt(500); // Adjust to fit screen height
-
-            newCar.setPosition(randomX, randomY);
-
-            cars.add(newCar);
-            notifyObservers();
-        }
-    }
-
-    public void removeCar() {
-        if (!cars.isEmpty()) { // Only remove if there's a car
-            cars.remove(cars.size() - 1); // Remove the last added car
-            notifyObservers();
-        }
-    }
-
-    // Calls the gas method for each car once
-    @Override
-    public void gas(int amount) {
-        double gas = ((double) amount) / 100;
-        for (Car car : cars) {
-            car.gas(gas);
-        }
-    }
-
-    @Override
-    public void brake(int amount) {
-        double brake = ((double) amount) / 100;
-        for (Car car : cars) {
-            car.brake(brake);
-        }
-    }
-
-    @Override
-    public void startAllCars() {
-        for (Car car : cars) {
-            car.startEngine();
-        }
-    }
-
-    @Override
-    public void stopAllCars() {
-        for (Car car : cars) {
-            car.stopEngine();
-        }
-    }
-
-    @Override
-    public void raiseTrailer(int amount) {
-        for (Car car : cars) {
-            if (car instanceof Scania) {
-                Scania scania = (Scania) car;
-                scania.raiseTrailer(amount);
-            }
-        }
-    }
-
-    @Override
-    public void lowerTrailer(int amount) {
-        for (Car car : cars) {
-            if (car instanceof Scania) {
-                Scania scania = (Scania) car;
-                scania.lowerTrailer(amount);
-            }
-        }
-    }
-
-    @Override
-    public void setTurboOn() {
-        for (Car car : cars) {
-            if (car instanceof Saab95) {
-                Saab95 saab95 = (Saab95) car;
-                saab95.setTurboOn();
-            }
-        }
-    }
-
-    @Override
-    public void setTurboOff() {
-        for (Car car : cars) {
-            if (car instanceof Saab95) {
-                Saab95 saab95 = (Saab95) car;
-                saab95.setTurboOff();
-            }
-        }
+        
+        gasButton.addActionListener(e -> model.gas(view.getGasAmount()));
+        brakeButton.addActionListener(e -> model.brake(view.getGasAmount()));
+        startButton.addActionListener(e -> model.startAllCars());
+        stopButton.addActionListener(e -> model.stopAllCars());
+        turboOnButton.addActionListener(e -> model.setTurboOn());
+        turboOffButton.addActionListener(e -> model.setTurboOff());
+        liftBedButton.addActionListener(e -> model.raiseTrailer(70));
+        lowerBedButton.addActionListener(e -> model.lowerTrailer(70));
+        addCarButton.addActionListener(e -> model.addCar());
+        removeCarButton.addActionListener(e -> model.removeCar());
     }
 }
 
