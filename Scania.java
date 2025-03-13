@@ -1,39 +1,36 @@
 import java.awt.*;
 
-public class Scania extends Car{
-
-    private double TrailerTilt;
-    private final double MaxTilt = 70;
-    private final double MinTilt = 0;
-
+public class Scania extends Truck{
+    public trailer trailr = new trailer();
     Scania(){
         super(2,150,Color.WHITE,"Scania");
-        this.TrailerTilt = 0;
     }
 
+    @Override
     public void raiseTrailer(double amount){
         if(getCurrentSpeed() == 0){
-            TrailerTilt = Math.min(TrailerTilt + amount, MaxTilt);
+            trailr.raiseTrailer(amount);
         }
         else{
             System.out.println("Can't raise trailer while moving");
         }
     }
 
+    @Override
     public void lowerTrailer(double amount){
         if(getCurrentSpeed() == 0){
-            TrailerTilt = Math.max(TrailerTilt - amount, MinTilt);
+            trailr.lowerTrailer(amount);
         }
     }
 
     public double getTrailerTilt(){
-        return TrailerTilt;
+        return trailr.getTrailerTilt();
     }
 
     public void move() {
         System.out.println(getCurrentSpeed());
         System.out.println(getTrailerTilt());
-        if (TrailerTilt > 0) {
+        if (trailr.getTrailerTilt() > 0) {
             System.out.println("Can't move with raised trailer");
         }
         else {
