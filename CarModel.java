@@ -54,9 +54,16 @@ public class CarModel implements CarButtonListener{
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             for (Car car : cars) {
+                if (car instanceof Volvo240 volvo240) {
+                    double x = volvo240.getX();
+                    if (x >= 250 && x <= 350){
+                        volvo240.setPosition(300, volvo240.getY());
+                    }
+                }
                 car.move();
                 int x = (int) Math.round(car.getX());
                 int y = (int) Math.round(car.getY());
+
 
                 if (x >= 699 || x <= -50 || y >= 499 || y <= 0) {
                     car.turnLeft();

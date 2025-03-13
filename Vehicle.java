@@ -62,7 +62,7 @@ public abstract class Vehicle implements Movable {
     public void setPosition(double x, double y){
         this.x = x;
         this.y = y;
-        if (x == 300) {
+        if (x == 300 && y== ) {
             isFrozen = true;
             System.out.println("Car is in the workshop");
         } else {
