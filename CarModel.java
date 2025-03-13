@@ -12,9 +12,9 @@ import java.util.Random;
  */
 
 public class CarModel implements CarButtonListener{
-    // member fields:
 
-    // The delay (ms) corresponds to 20 updates a sec (hz)
+    public trailer_interface trail_int = new trailer();
+
     private final int delay = 50;
     
     private Timer timer = new Timer(delay, new TimerListener());
